@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
+
 public class Player : MonoBehaviour
 {
 	
@@ -21,20 +22,33 @@ public class Player : MonoBehaviour
 	[Space]
 	[Tooltip("The Rigidbody Component of the Player.")]
 	[SerializeField] private Rigidbody2D _rigidBody2D;
-	[Tooltip("the Sprite Renderer of the Player.")]
-	[SerializeField] private SpriteRenderer _spriteRenderer;
+	
+	[Tooltip("The Sprite Render of the Sword animation")]
+	[SerializeField] private SpriteRenderer _swordSprite;
+	[Tooltip("The Sprite Renderer of the Player.")]
+	[SerializeField] private SpriteRenderer _playerSprite;
+	
 	[Tooltip("Script responsible for animation control.")]
-	[SerializeField] private PlayAnimation _playAnimation;
+	[SerializeField] private PlayAnimation _playerAnimation;
 	
 	[Space]
 	[SerializeField] private LayerMask _groundLayerMask;
-
+	
 	private float _horizontal;
+	private bool _isFaceRight = true;
 
 	void Start()
 	{
 		// Do null checks on components
-		_rigidBody2D = GetComponent<Rigidbody2D>();
+		// no need to nullcheck rigidbody2D as it is a required compnet of this script.
+		if (_playerAnimation == null)
+		{
+			ConsoleOutput("PlayerAniimation");
+		}
+		if (_playerSprite == null)
+		{
+			ConsoleOutput("Sprite Renderer");
+		}
 	}
 
 	void Update()
@@ -42,41 +56,60 @@ public class Player : MonoBehaviour
 		if (IsGrounded())
 		{
 			MovePlayer();
+			if (Input.GetMouseButtonDown(0))
+			{
+				_playerAnimation.Attack();
+			}
 		}
+	}
+
+	void ConsoleOutput(string comp)
+	{
+		Debug.LogError(comp + " component not available.");
 	}
 
 	private void Flip(float dir)
 	{
-		if (dir > 0)
+		// Flip the Parent object -Player GO - to flip both player, and sword sprite
+
+		// dir > 0 player goes right
+		if (dir > 0 && !_isFaceRight)
 		{
-			_spriteRenderer.flipX = false;
+			// Face Right
+			transform.Rotate(0.0f, -180.0f, 0.0f, Space.Self);
+			_isFaceRight = true;
 		}
-		else if (dir < 0)
+		// dir <0 player goes left
+		else if (dir < 0 && _isFaceRight)
 		{
-			_spriteRenderer.flipX = true;
+			// Face right
+			transform.Rotate(0.0f, 180.0f, 0.0f, Space.Self);
+			_isFaceRight = false;
 		}
 	}
 
 	private void MovePlayer()
 	{
 		// Get horizontal movment
-		_horizontal = Input.GetAxisRaw("Horizontal");
-		Flip(_horizontal);
 		// if move > 0 then facing right
 		//	else if < 0 then facing left
 
+		_horizontal = Input.GetAxisRaw("Horizontal");
+		Flip(_horizontal);
 		
 		// Check for jump input, jump status
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
 			// Apply vertical force to player.
 			_rigidBody2D.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
+			// Set animation fro jumping
+			_playerAnimation.Jump(true);
 		}
 		// Perform the movement
 		Vector2 currentVelocity = _rigidBody2D.velocity;
 		_rigidBody2D.velocity = new Vector2(_horizontal * _speed, currentVelocity.y);
 		// Animate the movment
-		_playAnimation.Run(_horizontal);
+		_playerAnimation.Run(_horizontal);
 	}
 
 	private bool IsGrounded()
@@ -90,7 +123,7 @@ public class Player : MonoBehaviour
 		// Perfrom Raycast on groundlayer.
 		RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.0f, _groundLayerMask);
 
-		//Debug.DrawRay(transform.position, Vector2.down);
+		Debug.DrawRay(transform.position, Vector2.down, Color.red);
 		bool isGrounded = false;
 
 		// If ray hits something.
@@ -98,12 +131,14 @@ public class Player : MonoBehaviour
 		{
 			// Gather the tolarence for being grounded, via debug
 			// Idle hit.distance is distance from player to ground, used for the isGrounded offset
-			Debug.Log("Hit distance tolerance required : " + hit.distance);
+			//Debug.Log("Hit distance tolerance required : " + hit.distance);
 
 			if (hit.distance < _isGroundedOffset)
 			{
 				// Player is within tolerance to be classed as grounded
 				isGrounded = true;
+				// Reset jumping aniamtion
+				_playerAnimation.Jump(false);
 			}
 		}
 		return isGrounded;
