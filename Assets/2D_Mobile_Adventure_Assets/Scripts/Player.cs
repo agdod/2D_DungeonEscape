@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-	
+
 	[Header("Player Control Stats")]
 	[Space]
 	[Tooltip("Value controlling the focre applied on jumping.")]
@@ -22,20 +22,21 @@ public class Player : MonoBehaviour
 	[Space]
 	[Tooltip("The Rigidbody Component of the Player.")]
 	[SerializeField] private Rigidbody2D _rigidBody2D;
-	
+
 	[Tooltip("The Sprite Render of the Sword animation")]
 	[SerializeField] private SpriteRenderer _swordSprite;
 	[Tooltip("The Sprite Renderer of the Player.")]
 	[SerializeField] private SpriteRenderer _playerSprite;
-	
+
 	[Tooltip("Script responsible for animation control.")]
 	[SerializeField] private PlayAnimation _playerAnimation;
-	
+
 	[Space]
 	[SerializeField] private LayerMask _groundLayerMask;
-	
+
 	private float _horizontal;
 	private bool _isFaceRight = true;
+	private Transform _swordAnimTransform;  // Transfrom of the sword animation componenet
 
 	void Start()
 	{
@@ -49,6 +50,7 @@ public class Player : MonoBehaviour
 		{
 			ConsoleOutput("Sprite Renderer");
 		}
+		_swordAnimTransform = _swordSprite.GetComponent<Transform>();
 	}
 
 	void Update()
@@ -76,14 +78,28 @@ public class Player : MonoBehaviour
 		if (dir > 0 && !_isFaceRight)
 		{
 			// Face Right
-			transform.Rotate(0.0f, -180.0f, 0.0f, Space.Self);
+			_playerSprite.flipX = false;
+
+			// Rotate and reposition the sword arc sprite
+			Vector3 pos = _swordAnimTransform.position;
+			pos.x = 1.01f;
+			_swordAnimTransform.position = pos;
+			_swordAnimTransform.rotation = Quaternion.Euler(new Vector3(66, 48, -80));
+
 			_isFaceRight = true;
 		}
 		// dir <0 player goes left
 		else if (dir < 0 && _isFaceRight)
 		{
-			// Face right
-			transform.Rotate(0.0f, 180.0f, 0.0f, Space.Self);
+			// Face left
+			_playerSprite.flipX = true;
+
+			// Rotate and reposition the sword arc sprite
+			Vector3 pos = _swordAnimTransform.position;
+			pos.x = -1.01f;
+			_swordAnimTransform.position = pos;
+			_swordAnimTransform.rotation = Quaternion.Euler(new Vector3(66, 228, -80));
+
 			_isFaceRight = false;
 		}
 	}
@@ -96,7 +112,7 @@ public class Player : MonoBehaviour
 
 		_horizontal = Input.GetAxisRaw("Horizontal");
 		Flip(_horizontal);
-		
+
 		// Check for jump input, jump status
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
