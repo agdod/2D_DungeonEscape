@@ -14,11 +14,17 @@ public abstract class Enemy : MonoBehaviour
 	[SerializeField] protected Transform pointA;
 	[SerializeField] protected Transform pointB;
 
+	
+
+	protected abstract void Update();
+
+	
+
 	public virtual void Attack()
 	{
 		Debug.Log("BaseAttackCalled");
 	}
 
-	protected abstract void Update();
+	
 
 }
