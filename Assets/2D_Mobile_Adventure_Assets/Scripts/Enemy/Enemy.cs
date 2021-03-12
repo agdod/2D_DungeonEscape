@@ -61,9 +61,26 @@ public abstract class Enemy : MonoBehaviour
 			EnemyMovement();
 		}
 		// If enemy is in combat mode check that player is in range
-		else if (inCombat && PlayerInRange())
+		else if (inCombat)
 		{
-			FacePlayer();
+			if (PlayerInRange())
+			{
+				FacePlayer();
+			}
+			else
+			{
+				// Player no longer in range resume 
+				// Check if enemy is facing correct direction for desired destination
+				if (destination == pointA.position)
+				{
+					// Position A is on left enemy faces left.
+					enemySprite.flipX = true;
+				}
+				else if (destination == pointB.position)
+				{
+					enemySprite.flipX = false;
+				}
+			}
 		}
 	}
 
