@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class Enemy : MonoBehaviour
 {
 
+
 	[Header("Common Stats.")]
 	[SerializeField] protected int health;
 	[SerializeField] protected int speed;
@@ -18,6 +19,9 @@ public abstract class Enemy : MonoBehaviour
 	protected Animator enemyAnim;
 	protected SpriteRenderer enemySprite;
 	protected bool flip;
+	protected bool inCombat;
+	protected GameObject player;
+
 
 	private void Start()
 	{
@@ -32,6 +36,7 @@ public abstract class Enemy : MonoBehaviour
 		{
 			Debug.LogError("No Sprite Renderer found on " + name);
 		}
+		player = GameObject.FindGameObjectWithTag("Player");
 		Init();
 	}
 
@@ -42,8 +47,10 @@ public abstract class Enemy : MonoBehaviour
 
 	protected virtual void Update()
 	{
+
+
 		// If enemy is idle, do nothing.
-		if (enemyAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+		if (enemyAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && enemyAnim.GetBool("InCombat") == false)
 		{
 			return;
 		}
@@ -52,7 +59,16 @@ public abstract class Enemy : MonoBehaviour
 			enemySprite.flipX = !enemySprite.flipX;
 			flip = false;
 		}
-		EnemyMovement();
+
+		if (!inCombat)
+		{
+			EnemyMovement();
+		}
+		// If enemy is in combat mode check that player is in range
+		else if (inCombat)
+		{
+			PlayerInRange();
+		}
 	}
 
 	protected virtual void EnemyMovement()
@@ -86,6 +102,19 @@ public abstract class Enemy : MonoBehaviour
 	public virtual void Attack()
 	{
 		Debug.Log("BaseAttackCalled");
-	} 
+	}
 
+	private void PlayerInRange()
+	{
+		float distance = Vector3.Distance(transform.position, player.transform.position);
+		Debug.Log("Disatnce between enemy and player  :" + distance);
+		if (Vector3.Distance(transform.position, player.transform.position) > 2)
+		{
+			// Player is out of range
+
+			inCombat = false;
+			enemyAnim.SetBool("InCombat", false);
+
+		}
+	}
 }
