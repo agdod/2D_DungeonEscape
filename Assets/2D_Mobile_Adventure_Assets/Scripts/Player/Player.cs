@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
 
 	[Header("Player Control Stats")]
@@ -37,6 +37,8 @@ public class Player : MonoBehaviour
 	private float _horizontal;
 	private bool _isFaceRight = true;
 	private Transform _swordAnimTransform;  // Transfrom of the sword animation componenet
+
+	public int Health { get; set; }
 
 	void Start()
 	{
@@ -158,5 +160,10 @@ public class Player : MonoBehaviour
 			}
 		}
 		return isGrounded;
+	}
+
+	public void Damage()
+	{
+		Debug.Log("Player::Damage");
 	}
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Skeleton : Enemy, IDamageable
 {
-	public int Health 
+	public int Health
 	{
 		get { return health; }
 		set { health = value; }
@@ -19,9 +19,7 @@ public class Skeleton : Enemy, IDamageable
 
 	public void Damage()
 	{
-		Debug.Log("Damage!");
-		// Subtract 1
-		// If health < 1then die (destroy)
+		// If health < 1 then die (destroy)
 		Health -= 1;
 		inCombat = true;
 		enemyAnim.SetTrigger("Hit");
