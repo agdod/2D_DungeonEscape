@@ -14,12 +14,13 @@ public class Skeleton : Enemy, IDamageable
 	{
 		base.Init();
 		destination = pointB.position;
-		// Assign Health property to our enemy health.
+		
 	}
 
 	public void Damage()
 	{
 		// If health < 1 then die (destroy)
+
 		Health -= 1;
 		inCombat = true;
 		enemyAnim.SetTrigger("Hit");

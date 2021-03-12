@@ -78,6 +78,7 @@ public abstract class Enemy : MonoBehaviour
 				}
 				else if (destination == pointB.position)
 				{
+					// Positon B on right enemy faces right.
 					enemySprite.flipX = false;
 				}
 			}
