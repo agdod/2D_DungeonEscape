@@ -6,7 +6,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IDamageable
 {
-
+	[Header("Player Inventory")]
+	[SerializeField] private int _gems;
+	[Space]
 	[Header("Player Control Stats")]
 	[Space]
 	[Tooltip("Value controlling the focre applied on jumping.")]
@@ -39,6 +41,11 @@ public class Player : MonoBehaviour, IDamageable
 	private Transform _swordAnimTransform;  // Transfrom of the sword animation componenet
 
 	public int Health { get; set; }
+	public int Gems
+	{
+		get { return _gems; }
+		set { _gems = value; }
+	}
 
 	void Start()
 	{

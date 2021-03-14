@@ -12,6 +12,11 @@ public abstract class Enemy : MonoBehaviour
 	[Header("Waypoints")]
 	[SerializeField] protected Transform pointA;
 	[SerializeField] protected Transform pointB;
+	[Space]
+	[Header("Reward")]
+	[Tooltip("Reward spawned on Death of enemy")]
+	[SerializeField] protected GameObject reward;
+
 
 	protected Vector3 destination;
 	protected Animator enemyAnim;
@@ -50,7 +55,7 @@ public abstract class Enemy : MonoBehaviour
 		{
 			return;
 		}
-		
+
 		// If enemy is idle, do nothing.
 		if (enemyAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && enemyAnim.GetBool("InCombat") == false)
 		{
@@ -150,8 +155,13 @@ public abstract class Enemy : MonoBehaviour
 
 	protected virtual void Death()
 	{
-		enemyAnim.SetTrigger("Death");
 		isDead = true;
+		enemyAnim.SetTrigger("Death");
+		GameObject go = Instantiate(reward, transform.position, Quaternion.identity);
+		if (go.TryGetComponent(out Diamond diamond))
+		{
+			diamond.Gems = gems;
+		}
 	}
 
 	private bool PlayerInRange()
