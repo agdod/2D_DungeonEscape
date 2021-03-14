@@ -20,16 +20,21 @@ public class Skeleton : Enemy, IDamageable
 	public void Damage()
 	{
 		// If health < 1 then die (destroy)
-
-		Health -= 1;
-		inCombat = true;
-		enemyAnim.SetTrigger("Hit");
-		enemyAnim.SetBool("InCombat", true);
-		if (Health < 1 && !isDead)
+		if (!isDead)
 		{
-			Debug.Log("Dead!.");
-			Death();
+			Health -= 1;
+			inCombat = true;
+			enemyAnim.SetTrigger("Hit");
+			enemyAnim.SetBool("InCombat", true);
+			if (Health < 1 && !isDead)
+			{
+				Debug.Log("Dead!.");
+				inCombat = false;
+				enemyAnim.SetBool("InCombat", false);
+				Death();
+			}
 		}
+
 	}
 
 

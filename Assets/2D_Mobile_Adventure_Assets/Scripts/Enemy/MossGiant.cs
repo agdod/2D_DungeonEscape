@@ -18,16 +18,22 @@ public class MossGiant : Enemy, IDamageable
 
 	public void Damage()
 	{
-		// if health < 1
-		Health -= 1;
-		inCombat = true;
-		enemyAnim.SetTrigger("Hit");
-		enemyAnim.SetBool("InCombat", true);
-		if (Health < 1 && !isDead)
+		if (!isDead)
 		{
-			Debug.Log("Dead :: " + transform.name);
-			Death();
+			// if health < 1
+			Health -= 1;
+			inCombat = true;
+			enemyAnim.SetTrigger("Hit");
+			enemyAnim.SetBool("InCombat", true);
+			if (Health < 1)
+			{
+				Debug.Log("Dead :: " + transform.name);
+				inCombat = false;
+				enemyAnim.SetBool("InCombat", false);
+				Death();
+			}
 		}
+
 	}
 
 }

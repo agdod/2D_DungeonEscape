@@ -30,12 +30,16 @@ public class Spider : Enemy, IDamageable
 
 	public void Damage()
 	{
-		Health--;
-		if (Health < 1 && !isDead)
+		if (!isDead)
 		{
-			Debug.Log("Death::Spider");
-			Death();
+			Health--;
+			if (Health < 1 && !isDead)
+			{
+				Debug.Log("Death::Spider");
+				Death();
+			}
 		}
+
 	}
 
 	public override void Attack()
