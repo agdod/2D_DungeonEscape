@@ -41,6 +41,7 @@ public class Player : MonoBehaviour, IDamageable
 	private Transform _swordAnimTransform;  // Transfrom of the sword animation componenet
 
 	public int Health { get; set; }
+
 	public int Gems
 	{
 		get { return _gems; }
@@ -66,6 +67,7 @@ public class Player : MonoBehaviour, IDamageable
 	{
 		if (IsGrounded())
 		{
+			Debug.DrawRay(transform.position, Vector2.down, Color.red);
 			MovePlayer();
 			if (Input.GetMouseButtonDown(0))
 			{
@@ -148,7 +150,6 @@ public class Player : MonoBehaviour, IDamageable
 		// Perfrom Raycast on groundlayer.
 		RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.0f, _groundLayerMask);
 
-		//Debug.DrawRay(transform.position, Vector2.down, Color.red);
 		bool isGrounded = false;
 
 		// If ray hits something.
