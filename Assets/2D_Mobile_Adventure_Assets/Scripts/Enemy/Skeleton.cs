@@ -14,7 +14,7 @@ public class Skeleton : Enemy, IDamageable
 	{
 		base.Init();
 		destination = pointB.position;
-		
+
 	}
 
 	public void Damage()
@@ -25,10 +25,10 @@ public class Skeleton : Enemy, IDamageable
 		inCombat = true;
 		enemyAnim.SetTrigger("Hit");
 		enemyAnim.SetBool("InCombat", true);
-		if (Health < 1)
+		if (Health < 1 && !isDead)
 		{
 			Debug.Log("Dead!.");
-			Destroy(gameObject);
+			Death();
 		}
 	}
 

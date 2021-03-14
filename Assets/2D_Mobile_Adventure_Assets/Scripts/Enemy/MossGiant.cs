@@ -23,10 +23,10 @@ public class MossGiant : Enemy, IDamageable
 		inCombat = true;
 		enemyAnim.SetTrigger("Hit");
 		enemyAnim.SetBool("InCombat", true);
-		if (Health < 1)
+		if (Health < 1 && !isDead)
 		{
 			Debug.Log("Dead :: " + transform.name);
-			Destroy(gameObject);
+			Death();
 		}
 	}
 

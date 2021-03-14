@@ -19,6 +19,7 @@ public abstract class Enemy : MonoBehaviour
 	protected bool flip;
 	protected bool inCombat;
 	protected GameObject player;
+	protected bool isDead = false;
 
 
 	private void Start()
@@ -45,6 +46,11 @@ public abstract class Enemy : MonoBehaviour
 
 	protected virtual void Update()
 	{
+		if (isDead)
+		{
+			return;
+		}
+		
 		// If enemy is idle, do nothing.
 		if (enemyAnim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && enemyAnim.GetBool("InCombat") == false)
 		{
@@ -140,6 +146,12 @@ public abstract class Enemy : MonoBehaviour
 	public virtual void Attack()
 	{
 		Debug.Log("BaseAttackCalled");
+	}
+
+	protected virtual void Death()
+	{
+		enemyAnim.SetTrigger("Death");
+		isDead = true;
 	}
 
 	private bool PlayerInRange()

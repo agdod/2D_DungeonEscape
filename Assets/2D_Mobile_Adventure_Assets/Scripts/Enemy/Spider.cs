@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spider : Enemy , IDamageable
+public class Spider : Enemy, IDamageable
 {
 	[Header("Attackable")]
 	[Tooltip("The Projectile that the enemy will attack with")]
@@ -10,12 +10,13 @@ public class Spider : Enemy , IDamageable
 	[Space]
 	[Tooltip("Starting point of Projectile.")]
 	[SerializeField] private Transform _origin;
-	
-	public int Health {
+
+	public int Health
+	{
 		get { return health; }
 		set { health = value; }
 	}
-	
+
 	protected override void Init()
 	{
 		base.Init();
@@ -30,10 +31,10 @@ public class Spider : Enemy , IDamageable
 	public void Damage()
 	{
 		Health--;
-		if (Health < 1)
+		if (Health < 1 && !isDead)
 		{
 			Debug.Log("Death::Spider");
-			Destroy(gameObject);
+			Death();
 		}
 	}
 
