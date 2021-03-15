@@ -9,7 +9,7 @@ public class SpiderAnimationEvent : MonoBehaviour
 
 	public void Fire()
 	{
-		Debug.Log("Spider::Fire!");
+		// Debug.Log("Spider::Fire!");
 		// Tell spider to fire.
 		_spider.Attack();
 	}

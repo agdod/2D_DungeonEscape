@@ -150,7 +150,7 @@ public abstract class Enemy : MonoBehaviour
 
 	public virtual void Attack()
 	{
-		Debug.Log("BaseAttackCalled");
+		// Debug.Log("BaseAttackCalled");
 	}
 
 	protected virtual void Death()
