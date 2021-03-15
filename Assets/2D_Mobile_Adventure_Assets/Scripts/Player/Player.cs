@@ -39,6 +39,8 @@ public class Player : MonoBehaviour, IDamageable
 	private float _horizontal;
 	private bool _isFaceRight = true;
 	private Transform _swordAnimTransform;  // Transfrom of the sword animation componenet
+	[SerializeField]
+	private bool _lockPlayer;
 
 	public int Health { get; set; }
 
@@ -46,6 +48,12 @@ public class Player : MonoBehaviour, IDamageable
 	{
 		get { return _gems; }
 		set { _gems = value; }
+	}
+
+	public bool LockPlayer
+	{
+		get { return _lockPlayer; }
+		set { _lockPlayer = value; }
 	}
 
 	void Start()
@@ -124,14 +132,24 @@ public class Player : MonoBehaviour, IDamageable
 		_horizontal = Input.GetAxisRaw("Horizontal");
 		Flip(_horizontal);
 
-		// Check for jump input, jump status
-		if (Input.GetKeyDown(KeyCode.Space))
+		// Check for jump input, jump status , if player isnt locked.
+		if (Input.GetKeyDown(KeyCode.Space) && !_lockPlayer)
 		{
 			// Apply vertical force to player.
 			_rigidBody2D.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
 			// Set animation fro jumping
 			_playerAnimation.Jump(true);
 		}
+		// if player is locked - in the shop - then can only move right
+		if (_lockPlayer)
+		{
+			// Freeze any left movement
+			if (_horizontal < 0)
+			{
+				_horizontal = 0;
+			}
+		}
+
 		// Perform the movement
 		Vector2 currentVelocity = _rigidBody2D.velocity;
 		_rigidBody2D.velocity = new Vector2(_horizontal * _speed, currentVelocity.y);
