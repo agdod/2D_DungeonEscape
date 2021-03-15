@@ -7,6 +7,7 @@ public class MerchantShop : MonoBehaviour
 {
 	// Display the Merchant ShopUI Interface
 	[SerializeField] private GameObject _merchantShop;
+	[SerializeField] private int[] _itemCost;
 	private Player _player;
 	private int _selectedItem;
 
@@ -16,7 +17,6 @@ public class MerchantShop : MonoBehaviour
 		{
 			_merchantShop.SetActive(false);
 			_player.LockPlayer = false;
-
 		}
 	}
 
@@ -27,9 +27,10 @@ public class MerchantShop : MonoBehaviour
 		{
 			if (other.TryGetComponent(out Player player))
 			{
-				UIManager.Instance.UpdateGemCount(player.Gems);
 				_player = player;
-				player.LockPlayer = true;
+				UIManager.Instance.UpdateShopGemCount(_player.Gems);
+
+				_player.LockPlayer = true;
 			}
 			_merchantShop.SetActive(true);
 		}
@@ -47,9 +48,32 @@ public class MerchantShop : MonoBehaviour
 		}
 	}
 
-	private void GetSelectedItem(RectTransform rectTrans)
+	public void BuyItem()
 	{
-		// Gets the name of the slected button.
+		// BuyItem 
+		// check if player has gems to cover cost
+		// do trascation ( subtract gems etc)
+		// else cancel sale. - leave shop.
+		if (_player.Gems >= _itemCost[_selectedItem])
+		{
+			// equipItem 
+			Debug.Log("Player purchased item " + _selectedItem);
+			_player.Gems -= _itemCost[_selectedItem];
+			UIManager.Instance.UpdatePlayerGemCount(_player.Gems);
+			UIManager.Instance.UpdateShopGemCount(_player.Gems);
+		}
+		else
+		{
+			Debug.Log("Not enough funds.");
+			_merchantShop.SetActive(false);
+			_player.LockPlayer = false;
+		}
+	}
+
+	public void SelectItem(RectTransform rectTrans)
+	{
+		UIManager.Instance.UpdateSelection(rectTrans);
+		Debug.Log("Item selected : " + rectTrans.name);
 		switch (rectTrans.name)
 		{
 			case "FlameSword_Btn":
@@ -67,10 +91,12 @@ public class MerchantShop : MonoBehaviour
 		}
 	}
 
-	public void SelectItem(RectTransform rectTrans)
+	public void Damage()
 	{
-		UIManager.Instance.UpdateSelection(rectTrans);
+		// remove 1 health
+		// update ui display
+		// check for dead
+		// play death animation
 	}
-
 
 }

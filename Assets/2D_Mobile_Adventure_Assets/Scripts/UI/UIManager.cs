@@ -6,35 +6,47 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    private static UIManager _instance;
+	private static UIManager _instance;
 
-    public static UIManager Instance
+	public static UIManager Instance
 	{
-        get { 
-            if (_instance == null)
-            {
-                Debug.Log("UIManager instance is null.");
-                
+		get
+		{
+			if (_instance == null)
+			{
+				_instance = FindObjectOfType(typeof(UIManager)) as UIManager;
 			}
-            return _instance; 
-        }
+			return _instance;
+		}
 	}
 
-    [SerializeField] private TMP_Text _gemCount;
-    [SerializeField] private Image _selectionImg;
+	[SerializeField] private TMP_Text _shopGemCount;
+	[SerializeField] private Image _selectionImg;
+	[SerializeField] private TMP_Text _playerGemCount;
 
 	private void Awake()
 	{
-        _instance = this;
+		_instance = this;
 	}
 
-    public void UpdateGemCount(int gems)
+	public void UpdateShopGemCount(int gems)
 	{
-        _gemCount.text = "" + gems + " G";
+		_shopGemCount.text = "" + gems + " G";
 	}
 
-    public void UpdateSelection(RectTransform rectTrans)
+	public void UpdatePlayerGemCount(int gems)
 	{
-        _selectionImg.rectTransform.anchoredPosition = rectTrans.anchoredPosition;
+		_playerGemCount.text = "" + gems;
+	}
+
+	public void UpdateSelection(RectTransform rectTrans)
+	{
+		_selectionImg.rectTransform.anchoredPosition = rectTrans.anchoredPosition;
+	}
+
+	public void UpdateLives()
+	{
+		// loop through lives
+		// hide life
 	}
 }

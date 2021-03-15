@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Diamond : MonoBehaviour
 {
-	[SerializeField] private int _gems;
+	[SerializeField] private int _gems = 1;
 
 	public int Gems
 	{

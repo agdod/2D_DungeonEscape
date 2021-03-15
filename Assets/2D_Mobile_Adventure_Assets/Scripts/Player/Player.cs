@@ -46,8 +46,15 @@ public class Player : MonoBehaviour, IDamageable
 
 	public int Gems
 	{
-		get { return _gems; }
-		set { _gems = value; }
+		get 
+		{ 
+			return _gems;
+		}
+		set 
+		{
+			_gems = value;
+			UIManager.Instance.UpdatePlayerGemCount(_gems);
+		}
 	}
 
 	public bool LockPlayer
@@ -69,6 +76,7 @@ public class Player : MonoBehaviour, IDamageable
 			ConsoleOutput("Sprite Renderer");
 		}
 		_swordAnimTransform = _swordSprite.GetComponent<Transform>();
+		UIManager.Instance.UpdatePlayerGemCount(_gems);
 	}
 
 	void Update()
