@@ -90,13 +90,4 @@ public class MerchantShop : MonoBehaviour
 				break;
 		}
 	}
-
-	public void Damage()
-	{
-		// remove 1 health
-		// update ui display
-		// check for dead
-		// play death animation
-	}
-
 }

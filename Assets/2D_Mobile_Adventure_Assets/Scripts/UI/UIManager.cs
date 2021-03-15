@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
 	[SerializeField] private TMP_Text _shopGemCount;
 	[SerializeField] private Image _selectionImg;
 	[SerializeField] private TMP_Text _playerGemCount;
+	[SerializeField] private Image[] _lives;
 
 	private void Awake()
 	{
@@ -44,9 +45,17 @@ public class UIManager : MonoBehaviour
 		_selectionImg.rectTransform.anchoredPosition = rectTrans.anchoredPosition;
 	}
 
-	public void UpdateLives()
+	public void UpdateLives(int lives)
 	{
 		// loop through lives
 		// hide life
+		int temp = _lives.Length - lives;
+		Debug.Log("lives : " + temp);
+		for (int i= _lives.Length; i < lives; i--)
+		{
+			// Disable lives from "top down"
+			_lives[i].gameObject.SetActive(false);
+		}
+
 	}
 }

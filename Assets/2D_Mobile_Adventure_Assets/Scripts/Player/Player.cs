@@ -39,18 +39,26 @@ public class Player : MonoBehaviour, IDamageable
 	private float _horizontal;
 	private bool _isFaceRight = true;
 	private Transform _swordAnimTransform;  // Transfrom of the sword animation componenet
+
 	[SerializeField]
 	private bool _lockPlayer;
+	[SerializeField]
+	private int _health = 4;
 
-	public int Health { get; set; }
+	[SerializeField]
+	public int Health
+	{
+		get { return _health; }
+		set { _health = value; }
+	}
 
 	public int Gems
 	{
-		get 
-		{ 
+		get
+		{
 			return _gems;
 		}
-		set 
+		set
 		{
 			_gems = value;
 			UIManager.Instance.UpdatePlayerGemCount(_gems);
@@ -77,6 +85,7 @@ public class Player : MonoBehaviour, IDamageable
 		}
 		_swordAnimTransform = _swordSprite.GetComponent<Transform>();
 		UIManager.Instance.UpdatePlayerGemCount(_gems);
+		UIManager.Instance.UpdateLives(_health);
 	}
 
 	void Update()
@@ -199,5 +208,16 @@ public class Player : MonoBehaviour, IDamageable
 	public void Damage()
 	{
 		Debug.Log("Player::Damage");
+		// remove 1 health
+		// update ui display
+		// check for dead
+		// play death animation
+		Health--;
+		UIManager.Instance.UpdateLives(Health);
+		if (Health < 1)
+		{
+			// Player is dead!
+			_playerAnimation.Death();
+		}
 	}
 }
