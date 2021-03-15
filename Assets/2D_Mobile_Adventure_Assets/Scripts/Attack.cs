@@ -29,9 +29,10 @@ public class Attack : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D other)
 	{
-		Debug.Log("hit the " + other.name);
+		
 		if (other.TryGetComponent(out IDamageable hit))
 		{
+			Debug.Log(this.name + " hit the " + other.name);
 			if (_canDealDamage)
 			{
 				// One hit per attack.
