@@ -21,6 +21,7 @@ public abstract class Enemy : MonoBehaviour
 	protected Vector3 destination;
 	protected Animator enemyAnim;
 	protected SpriteRenderer enemySprite;
+	protected bool rightFace;
 	protected bool flip;
 	protected bool inCombat;
 	protected GameObject player;
@@ -41,6 +42,7 @@ public abstract class Enemy : MonoBehaviour
 			Debug.LogError("No Sprite Renderer found on " + name);
 		}
 		player = GameObject.FindGameObjectWithTag("Player");
+		rightFace = true;
 		Init();
 	}
 
@@ -63,7 +65,7 @@ public abstract class Enemy : MonoBehaviour
 		}
 		if (flip)
 		{
-			enemySprite.flipX = !enemySprite.flipX;
+			RotateEnemy();
 			flip = false;
 		}
 
@@ -85,12 +87,12 @@ public abstract class Enemy : MonoBehaviour
 				if (destination == pointA.position)
 				{
 					// Position A is on left enemy faces left.
-					enemySprite.flipX = true;
+					transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
 				}
 				else if (destination == pointB.position)
 				{
 					// Positon B on right enemy faces right.
-					enemySprite.flipX = false;
+					transform.rotation = Quaternion.Euler(Vector3.zero);
 				}
 			}
 		}
@@ -130,20 +132,21 @@ public abstract class Enemy : MonoBehaviour
 		if (direction.x > 0)
 		{
 			// Player on right on enemy
-			// check which way enemy is facing.
-			if (enemySprite.flipX == true)
+			// Is enemy facing left?
+			if (!rightFace)
 			{
 				// Enemy is facing to the left - Flip the enemy.
-				enemySprite.flipX = false;
+				transform.rotation = Quaternion.Euler(Vector3.zero);
 			}
 		}
 		else if (direction.x < 0)
 		{
 			// Player on left of enemy
-			if (enemySprite.flipX == false)
+			// Enemy facing right?
+			if (rightFace)
 			{
 				// Enemy is facing right - Flip the enemy
-				enemySprite.flipX = true;
+				transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
 			}
 		}
 	}
@@ -161,6 +164,22 @@ public abstract class Enemy : MonoBehaviour
 		if (go.TryGetComponent(out Diamond diamond))
 		{
 			diamond.Gems = gems;
+		}
+	}
+
+	private void RotateEnemy()
+	{
+		// If faceing right - rotation.y = 180
+		// else if facing left - rotation.y = 0
+		if (rightFace)
+		{
+			transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+			rightFace = false;
+		}
+		else
+		{
+			transform.rotation = Quaternion.Euler(Vector3.zero);
+			rightFace = true;
 		}
 	}
 
