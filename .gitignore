@@ -76,3 +76,11 @@ crashlytics-build.properties
 # TextMesh Pro Plugin
 /[Aa]ssets/[Tt]ext[Mm]esh\ [Pp]ro/
 /[Aa]ssets/[Tt]ext[Mm]esh\ [Pp]ro.meta
+
+# Unity Standard Assests Sample Scenes
+/[Aa]ssets/[Ss]ample[Ss]cenes/
+/[Aa]ssets/[Ss]ample[Ss]cenes.meta
+
+# Unity Standard Assets
+/[Aa]ssets/[Ss]tandard\ [Aa]ssets/
+/[Aa]ssets/[Ss]tandard\ [Aa]ssets.meta
