@@ -15,8 +15,15 @@ public class Attack : MonoBehaviour
 
 	private void Update()
 	{
-		// If attack_swing animation is playing do nothing.
-		if (_anim.GetCurrentAnimatorStateInfo(0).IsName("Attack_Swing") || _anim.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+		/*
+		 * 	If animation is in :
+		 * 		Player - Attack_Swing state
+		 * 		Enemy - Attack state
+		 * 		Spider Acid Attack - AcidShot state
+		 * 	then do nothing 
+		 */
+
+		if (_anim.GetCurrentAnimatorStateInfo(0).IsName("Attack_Swing") || _anim.GetCurrentAnimatorStateInfo(0).IsName("Attack") || _anim.GetCurrentAnimatorStateInfo(0).IsName("AcidShot"))
 		{
 			return;
 		}
@@ -39,7 +46,7 @@ public class Attack : MonoBehaviour
 				if (player.isDead)
 				{
 					_canDealDamage = false;
-					Enemy enemy= GetComponentInParent<Enemy>();
+					Enemy enemy = GetComponentInParent<Enemy>();
 					if (enemy != null)
 					{
 						enemy.StopAttacking();
