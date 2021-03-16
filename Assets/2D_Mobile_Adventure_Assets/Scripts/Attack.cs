@@ -39,7 +39,11 @@ public class Attack : MonoBehaviour
 				if (player.isDead)
 				{
 					_canDealDamage = false;
-					GetComponentInParent<Enemy>().StopAttacking();
+					Enemy enemy= GetComponentInParent<Enemy>();
+					if (enemy != null)
+					{
+						enemy.StopAttacking();
+					}
 				}
 			}
 			// Debug.Log(this.name + " hit the " + other.name);
