@@ -121,28 +121,30 @@ public class Player : MonoBehaviour, IDamageable
 		if (dir > 0 && !_isFaceRight)
 		{
 			// Face Right
-			_playerSprite.flipX = false;
-
+			//_playerSprite.flipX = false;
+			_playerSprite.transform.rotation = Quaternion.Euler(Vector3.zero);
 			// Rotate and reposition the sword arc sprite
+			/*
 			Vector3 pos = _swordAnimTransform.position;
 			pos.x = 1.01f;
 			_swordAnimTransform.position = pos;
 			_swordAnimTransform.rotation = Quaternion.Euler(new Vector3(66, 48, -80));
-
+			*/
 			_isFaceRight = true;
 		}
 		// dir <0 player goes left
 		else if (dir < 0 && _isFaceRight)
 		{
 			// Face left
-			_playerSprite.flipX = true;
-
+			_playerSprite.transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+			/*_playerSprite.flipX = true;
+			_
 			// Rotate and reposition the sword arc sprite
 			Vector3 pos = _swordAnimTransform.position;
 			pos.x = -1.01f;
 			_swordAnimTransform.position = pos;
 			_swordAnimTransform.rotation = Quaternion.Euler(new Vector3(66, 228, -80));
-
+			*/
 			_isFaceRight = false;
 		}
 	}
@@ -219,14 +221,17 @@ public class Player : MonoBehaviour, IDamageable
 		// update ui display
 		// check for dead
 		// play death animation
-		_health--;
-		Debug.Log("updating ui");
-		UIManager.Instance.UpdateLives(_health);
-		if (_health < 1)
+		if (!_isDead)
 		{
-			// Player is dead!
-			_isDead = true;
-			_playerAnimation.Death();
+			_health--;
+			Debug.Log("updating ui");
+			UIManager.Instance.UpdateLives(_health);
+			if (_health < 1)
+			{
+				// Player is dead!
+				_isDead = true;
+				_playerAnimation.Death();
+			}
 		}
 	}
 }
