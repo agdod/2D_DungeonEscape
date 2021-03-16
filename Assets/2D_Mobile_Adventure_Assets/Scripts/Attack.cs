@@ -29,10 +29,20 @@ public class Attack : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D other)
 	{
-		
+
 		if (other.TryGetComponent(out IDamageable hit))
 		{
-			Debug.Log(this.name + " hit the " + other.name);
+			// Check if Player is dead.
+			// If dead stop attacking.
+			if (other.TryGetComponent(out Player player))
+			{
+				if (player.isDead)
+				{
+					_canDealDamage = false;
+					GetComponentInParent<Enemy>().StopAttacking();
+				}
+			}
+			// Debug.Log(this.name + " hit the " + other.name);
 			if (_canDealDamage)
 			{
 				// One hit per attack.
@@ -43,5 +53,4 @@ public class Attack : MonoBehaviour
 
 	}
 
-	
 }

@@ -45,16 +45,14 @@ public class UIManager : MonoBehaviour
 		_selectionImg.rectTransform.anchoredPosition = rectTrans.anchoredPosition;
 	}
 
-	public void UpdateLives(int lives)
+	public void UpdateLives(int health)
 	{
 		// loop through lives
 		// hide life
-		int temp = _lives.Length - lives;
-		Debug.Log("lives : " + temp);
-		for (int i= _lives.Length; i < lives; i--)
+		for (int i = _lives.Length; i > health; i--)
 		{
 			// Disable lives from "top down"
-			_lives[i].gameObject.SetActive(false);
+			_lives[i-1].gameObject.SetActive(false);
 		}
 
 	}

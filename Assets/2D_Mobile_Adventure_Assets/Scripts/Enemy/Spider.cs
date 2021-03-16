@@ -49,4 +49,9 @@ public class Spider : Enemy, IDamageable
 		Instantiate(_projectile, _origin.position, Quaternion.identity);
 	}
 
+	public override void StopAttacking()
+	{
+		inCombat = false;
+		enemyAnim.SetBool("InCombat", false);
+	}
 }

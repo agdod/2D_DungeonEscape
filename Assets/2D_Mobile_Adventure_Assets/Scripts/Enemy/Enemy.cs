@@ -27,7 +27,6 @@ public abstract class Enemy : MonoBehaviour
 	protected GameObject player;
 	protected bool isDead = false;
 
-
 	private void Start()
 	{
 		// Important componenets for enemy class. 
@@ -82,18 +81,7 @@ public abstract class Enemy : MonoBehaviour
 			}
 			else
 			{
-				// Player no longer in range resume 
-				// Check if enemy is facing correct direction for desired destination
-				if (destination == pointA.position)
-				{
-					// Position A is on left enemy faces left.
-					transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
-				}
-				else if (destination == pointB.position)
-				{
-					// Positon B on right enemy faces right.
-					transform.rotation = Quaternion.Euler(Vector3.zero);
-				}
+				Resume();
 			}
 		}
 	}
@@ -167,6 +155,13 @@ public abstract class Enemy : MonoBehaviour
 		}
 	}
 
+	public virtual void StopAttacking()
+	{
+		inCombat = false;
+		enemyAnim.SetBool("InCombat", false);
+		Resume();
+	}
+
 	private void RotateEnemy()
 	{
 		// If faceing right - rotation.y = 180
@@ -196,6 +191,22 @@ public abstract class Enemy : MonoBehaviour
 		else
 		{
 			return true;
+		}
+	}
+
+	public void Resume()
+	{
+		// Player no longer in range resume 
+		// Check if enemy is facing correct direction for desired destination
+		if (destination == pointA.position)
+		{
+			// Position A is on left enemy faces left.
+			transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+		}
+		else if (destination == pointB.position)
+		{
+			// Positon B on right enemy faces right.
+			transform.rotation = Quaternion.Euler(Vector3.zero);
 		}
 	}
 }

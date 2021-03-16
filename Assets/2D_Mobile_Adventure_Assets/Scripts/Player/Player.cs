@@ -52,6 +52,12 @@ public class Player : MonoBehaviour, IDamageable
 		set { _health = value; }
 	}
 
+	private bool _isDead;
+	public bool isDead
+	{
+		get { return _isDead; }
+	}
+
 	public int Gems
 	{
 		get
@@ -85,7 +91,8 @@ public class Player : MonoBehaviour, IDamageable
 		}
 		_swordAnimTransform = _swordSprite.GetComponent<Transform>();
 		UIManager.Instance.UpdatePlayerGemCount(_gems);
-		UIManager.Instance.UpdateLives(_health);
+		//UIManager.Instance.UpdateLives(_health);
+		_isDead = false;
 	}
 
 	void Update()
@@ -212,11 +219,13 @@ public class Player : MonoBehaviour, IDamageable
 		// update ui display
 		// check for dead
 		// play death animation
-		Health--;
-		UIManager.Instance.UpdateLives(Health);
-		if (Health < 1)
+		_health--;
+		Debug.Log("updating ui");
+		UIManager.Instance.UpdateLives(_health);
+		if (_health < 1)
 		{
 			// Player is dead!
+			_isDead = true;
 			_playerAnimation.Death();
 		}
 	}
