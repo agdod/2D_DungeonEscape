@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 [RequireComponent(typeof(Rigidbody2D))]
 
@@ -101,7 +102,7 @@ public class Player : MonoBehaviour, IDamageable
 		{
 			Debug.DrawRay(transform.position, Vector2.down, Color.red);
 			MovePlayer();
-			if (Input.GetMouseButtonDown(0))
+			if (CrossPlatformInputManager.GetButtonDown("Attack"))
 			{
 				_playerAnimation.Attack();
 			}
@@ -155,11 +156,11 @@ public class Player : MonoBehaviour, IDamageable
 		// if move > 0 then facing right
 		//	else if < 0 then facing left
 
-		_horizontal = Input.GetAxisRaw("Horizontal");
+		_horizontal = CrossPlatformInputManager.GetAxisRaw("Horizontal");
 		Flip(_horizontal);
 
 		// Check for jump input, jump status , if player isnt locked.
-		if (Input.GetKeyDown(KeyCode.Space) && !_lockPlayer)
+		if (CrossPlatformInputManager.GetButtonDown("Jump") && !_lockPlayer)
 		{
 			// Apply vertical force to player.
 			_rigidBody2D.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
