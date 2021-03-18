@@ -8,14 +8,9 @@ public class MerchantShop : MonoBehaviour
 	// Display the Merchant ShopUI Interface
 	[SerializeField] private GameObject _merchantShop;
 	[SerializeField] private int[] _itemCost;
-	[SerializeField] private Player _player;
+	private Player _player;
 	private int _selectedItem;
 
-
-	private void Start()
-	{
-		UIManager.Instance.UpdateShopGemCount(_player.Gems);
-	}
 	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Escape))
@@ -36,6 +31,7 @@ public class MerchantShop : MonoBehaviour
 				UIManager.Instance.UpdateShopGemCount(_player.Gems);
 
 				_player.LockPlayer = true;
+
 			}
 			_merchantShop.SetActive(true);
 		}
