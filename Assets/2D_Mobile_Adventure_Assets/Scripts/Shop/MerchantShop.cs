@@ -8,9 +8,14 @@ public class MerchantShop : MonoBehaviour
 	// Display the Merchant ShopUI Interface
 	[SerializeField] private GameObject _merchantShop;
 	[SerializeField] private int[] _itemCost;
-	private Player _player;
+	[SerializeField] private Player _player;
 	private int _selectedItem;
 
+
+	private void Start()
+	{
+		UIManager.Instance.UpdateShopGemCount(_player.Gems);
+	}
 	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Escape))
@@ -59,7 +64,7 @@ public class MerchantShop : MonoBehaviour
 			// equipItem 
 			Debug.Log("Player purchased item " + _selectedItem);
 			_player.Gems -= _itemCost[_selectedItem];
-			UIManager.Instance.UpdatePlayerGemCount(_player.Gems);
+			//UIManager.Instance.UpdatePlayerGemCount(_player.Gems);
 			UIManager.Instance.UpdateShopGemCount(_player.Gems);
 		}
 		else

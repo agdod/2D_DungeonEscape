@@ -7,6 +7,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
 {
 	[SerializeField] private string _gameId;
 	[SerializeField] private bool _testMode = true;
+	[SerializeField] private Player _player;
 	private string _placementId = "rewardedVideo";
 
 	private void Start()
@@ -27,6 +28,8 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
 			case ShowResult.Finished:
 				// Award 100G
 				Debug.Log("Ad Competed 100 Gems Rewarded.");
+				GameManager.Instance.Player.Gems += 100;
+				UIManager.Instance.UpdateShopGemCount(_player.Gems);
 				break;
 			case ShowResult.Skipped:
 				Debug.Log("You skipped the video no gems for you!");
