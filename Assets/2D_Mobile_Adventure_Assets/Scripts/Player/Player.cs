@@ -116,21 +116,13 @@ public class Player : MonoBehaviour, IDamageable
 
 	private void Flip(float dir)
 	{
-		// Flip the Parent object -Player GO - to flip both player, and sword sprite
-
+		// Rotate the Player sprite, instead of FlipX to combat disalgining of colliders
+		// Add Sword Sprite Arc as child object to Player Sprite.
 		// dir > 0 player goes right
 		if (dir > 0 && !_isFaceRight)
 		{
 			// Face Right
-			//_playerSprite.flipX = false;
 			_playerSprite.transform.rotation = Quaternion.Euler(Vector3.zero);
-			// Rotate and reposition the sword arc sprite
-			/*
-			Vector3 pos = _swordAnimTransform.position;
-			pos.x = 1.01f;
-			_swordAnimTransform.position = pos;
-			_swordAnimTransform.rotation = Quaternion.Euler(new Vector3(66, 48, -80));
-			*/
 			_isFaceRight = true;
 		}
 		// dir <0 player goes left
@@ -138,14 +130,6 @@ public class Player : MonoBehaviour, IDamageable
 		{
 			// Face left
 			_playerSprite.transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
-			/*_playerSprite.flipX = true;
-			_
-			// Rotate and reposition the sword arc sprite
-			Vector3 pos = _swordAnimTransform.position;
-			pos.x = -1.01f;
-			_swordAnimTransform.position = pos;
-			_swordAnimTransform.rotation = Quaternion.Euler(new Vector3(66, 228, -80));
-			*/
 			_isFaceRight = false;
 		}
 	}
@@ -160,7 +144,7 @@ public class Player : MonoBehaviour, IDamageable
 		Flip(_horizontal);
 
 		// Check for jump input, jump status , if player isnt locked.
-		if (CrossPlatformInputManager.GetButtonDown("Jump") && !_lockPlayer)
+		if ( (CrossPlatformInputManager.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Space) ) && !_lockPlayer)
 		{
 			// Apply vertical force to player.
 			_rigidBody2D.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);

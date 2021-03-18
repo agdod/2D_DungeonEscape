@@ -82,6 +82,15 @@
       },
       "hash": "deac217e4d161d915e8fe1c70c02027498241ece"
     },
+    "com.unity.ads": {
+      "version": "3.6.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.cinemachine": {
       "version": "2.6.3",
       "depth": 0,
