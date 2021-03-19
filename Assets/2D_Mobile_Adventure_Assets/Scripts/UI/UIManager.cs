@@ -52,8 +52,16 @@ public class UIManager : MonoBehaviour
 		for (int i = _lives.Length; i > health; i--)
 		{
 			// Disable lives from "top down"
-			_lives[i-1].gameObject.SetActive(false);
+			_lives[i - 1].gameObject.SetActive(false);
 		}
+	}
 
+	public void FatalDamage()
+	{
+		// Received fatal damage no lives left.
+		for (int i = _lives.Length; i < 1; i--)
+		{
+			_lives[i - 1].gameObject.SetActive(false);
+		}
 	}
 }
