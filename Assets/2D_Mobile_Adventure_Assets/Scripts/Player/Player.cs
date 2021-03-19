@@ -13,13 +13,16 @@ public class Player : MonoBehaviour, IDamageable
 	[Header("Player Control Stats")]
 	[Space]
 	[Tooltip("Value controlling the focre applied on jumping.")]
-	[Range(0f, 5f)]
+	[Range(0f, 10f)]
 	[SerializeField] private float _jumpForce;
 	[Range(0f, 10f)]
 	[SerializeField] private float _speed;
 	[Tooltip("Allows for error for groud tolerance")]
 	[Range(-1.0f, 1.0f)]
 	[SerializeField] private float _isGroundedOffset;
+	[Space]
+	[Header("Player Invertory")]
+	[SerializeField] private bool _hasKey;
 	[Space]
 	[Header("Player Components.")]
 	[Space]
@@ -30,7 +33,6 @@ public class Player : MonoBehaviour, IDamageable
 	[SerializeField] private SpriteRenderer _swordSprite;
 	[Tooltip("The Sprite Renderer of the Player.")]
 	[SerializeField] private SpriteRenderer _playerSprite;
-
 	[Tooltip("Script responsible for animation control.")]
 	[SerializeField] private PlayAnimation _playerAnimation;
 
@@ -45,6 +47,12 @@ public class Player : MonoBehaviour, IDamageable
 	private bool _lockPlayer;
 	[SerializeField]
 	private int _health = 4;
+
+	public bool HasKey
+	{
+		get { return _hasKey; }
+		set { _hasKey = value; }
+	}
 
 	[SerializeField]
 	public int Health
@@ -218,5 +226,15 @@ public class Player : MonoBehaviour, IDamageable
 				_playerAnimation.Death();
 			}
 		}
+	}
+
+	public void FatalDamage()
+	{
+		Debug.Log("Player received fatal damage is DEAD!");
+		_health = 0;
+		_isDead = true;
+		_playerAnimation.Death();
+		UIManager.Instance.FatalDamage();
+		
 	}
 }
