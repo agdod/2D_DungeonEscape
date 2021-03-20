@@ -7,7 +7,8 @@ public class PlayAnimation : MonoBehaviour
 	[Tooltip("The Animator Component of the Player.")]
 	[SerializeField] private Animator _playerAnim;
 	[Tooltip("The Animator Component of the Sword.")]
-	[SerializeField] private Animator _swordAnim;
+	[SerializeField] private Animator[] _swordAnim;
+
 
 	void Start()
 	{
@@ -35,7 +36,7 @@ public class PlayAnimation : MonoBehaviour
 	public void Attack()
 	{
 		_playerAnim.SetTrigger("Attacking");
-		_swordAnim.SetTrigger("SwordArc");
+		//_swordAnim[(int)_attackType].SetTrigger("SwordArc");
 	}
 
 	public void Death()

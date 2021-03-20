@@ -6,6 +6,7 @@ public abstract class Enemy : MonoBehaviour
 {
 	[Header("Common Stats.")]
 	[SerializeField] protected int health;
+	[SerializeField] protected int defense;
 	[SerializeField] protected int speed;
 	[SerializeField] protected int gems;
 	[Space]

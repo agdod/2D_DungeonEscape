@@ -10,6 +10,11 @@ public class MossGiant : Enemy, IDamageable
 		set { health = value; }
 	}
 
+	public int Defense
+	{
+		get { return defense; }
+	}
+
 	protected override void Init()
 	{
 		base.Init();

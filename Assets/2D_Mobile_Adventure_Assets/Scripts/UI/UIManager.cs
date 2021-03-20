@@ -19,11 +19,16 @@ public class UIManager : MonoBehaviour
 			return _instance;
 		}
 	}
-
+	[Header("Shop Layout")]
 	[SerializeField] private TMP_Text _shopGemCount;
 	[SerializeField] private Image _selectionImg;
+	[Space][Header("Player Information")]
 	[SerializeField] private TMP_Text _playerGemCount;
 	[SerializeField] private Image[] _lives;
+	[Space]
+	[Header("In Game Message system.")]
+	[SerializeField] private RectTransform _dialogBox;
+	[SerializeField] private TMP_Text _dialogTxt;
 
 	private void Awake()
 	{
@@ -56,12 +61,14 @@ public class UIManager : MonoBehaviour
 		}
 	}
 
-	public void FatalDamage()
+	public void DialogBox(string dialog )
 	{
-		// Received fatal damage no lives left.
-		for (int i = _lives.Length; i < 1; i--)
-		{
-			_lives[i - 1].gameObject.SetActive(false);
-		}
+		_dialogBox.gameObject.SetActive(true);
+		_dialogTxt.text = dialog;
+	}
+
+	public void CloseDialogBox()
+	{
+		_dialogBox.gameObject.SetActive(false);
 	}
 }

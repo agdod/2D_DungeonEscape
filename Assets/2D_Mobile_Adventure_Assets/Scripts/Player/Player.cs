@@ -8,7 +8,9 @@ using UnityStandardAssets.CrossPlatformInput;
 public class Player : MonoBehaviour, IDamageable
 {
 	[Header("Player Inventory")]
+	[SerializeField] private Inventory _inventory;
 	[SerializeField] private int _gems;
+	[SerializeField] private bool _hasKey;
 	[Space]
 	[Header("Player Control Stats")]
 	[Space]
@@ -20,9 +22,8 @@ public class Player : MonoBehaviour, IDamageable
 	[Tooltip("Allows for error for groud tolerance")]
 	[Range(-1.0f, 1.0f)]
 	[SerializeField] private float _isGroundedOffset;
-	[Space]
-	[Header("Player Invertory")]
-	[SerializeField] private bool _hasKey;
+	[SerializeField] private int _defense;
+	[SerializeField] private int _attack;
 	[Space]
 	[Header("Player Components.")]
 	[Space]
@@ -47,6 +48,7 @@ public class Player : MonoBehaviour, IDamageable
 	private bool _lockPlayer;
 	[SerializeField]
 	private int _health = 4;
+	private bool _isDead;
 
 	public bool HasKey
 	{
@@ -54,14 +56,17 @@ public class Player : MonoBehaviour, IDamageable
 		set { _hasKey = value; }
 	}
 
-	[SerializeField]
+	public int Defense
+	{
+		get { return _defense; }
+	}
+
 	public int Health
 	{
 		get { return _health; }
 		set { _health = value; }
 	}
 
-	private bool _isDead;
 	public bool isDead
 	{
 		get { return _isDead; }
@@ -86,6 +91,15 @@ public class Player : MonoBehaviour, IDamageable
 		set { _lockPlayer = value; }
 	}
 
+	public int Attack
+	{
+		get
+		{
+			_attack = (int)_inventory.Sword;
+			return (int)_inventory.Sword;
+		}
+	}
+
 	void Start()
 	{
 		// Do null checks on components
@@ -102,11 +116,12 @@ public class Player : MonoBehaviour, IDamageable
 		UIManager.Instance.UpdatePlayerGemCount(_gems);
 		//UIManager.Instance.UpdateLives(_health);
 		_isDead = false;
+
 	}
 
 	void Update()
 	{
-		if (IsGrounded())
+		if (IsGrounded() && !_isDead)
 		{
 			Debug.DrawRay(transform.position, Vector2.down, Color.red);
 			MovePlayer();
@@ -152,7 +167,7 @@ public class Player : MonoBehaviour, IDamageable
 		Flip(_horizontal);
 
 		// Check for jump input, jump status , if player isnt locked.
-		if ( (CrossPlatformInputManager.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Space) ) && !_lockPlayer)
+		if ((CrossPlatformInputManager.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Space)) && !_lockPlayer)
 		{
 			// Apply vertical force to player.
 			_rigidBody2D.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
@@ -234,7 +249,6 @@ public class Player : MonoBehaviour, IDamageable
 		_health = 0;
 		_isDead = true;
 		_playerAnimation.Death();
-		UIManager.Instance.FatalDamage();
-		
+		UIManager.Instance.UpdateLives(0);
 	}
 }
